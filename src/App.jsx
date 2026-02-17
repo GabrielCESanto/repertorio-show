@@ -115,7 +115,7 @@ function App() {
             {/* TEXTO */}
             <div>
               <img
-                src="/img/logo.png"
+                src={`${import.meta.env.BASE_URL}img/logo.jpg`}
                 alt="Gabs Acústico"
                 className="h-auto w-auto"
               />
@@ -132,7 +132,7 @@ function App() {
                   rel="noreferrer"
                   className="p-3 rounded-xl border border-zinc-800 hover:bg-zinc-900/40 transition"
                 >
-                  <img src="{`${import.meta.env.BASE_URL}img/instagram.png`}" className="w-7 h-7" />
+                  <img src={`${import.meta.env.BASE_URL}img/instagram.png`} className="w-7 h-7" />
                 </a>
 
                 <a
@@ -141,7 +141,7 @@ function App() {
                   rel="noreferrer"
                   className="p-3 rounded-xl border border-zinc-800 hover:bg-zinc-900/40 transition"
                 >
-                  <img src="{`${import.meta.env.BASE_URL}img/whatsapp.png`}" className="w-7 h-7" />
+                  <img src={`${import.meta.env.BASE_URL}img/whatsapp.png`} className="w-7 h-7" />
                 </a>
               </div>
             </div>
@@ -149,7 +149,7 @@ function App() {
             {/* FOTO */}
             <div className="w-full max-w-[360px] h-[280px] rounded-2xl border border-zinc-800 overflow-hidden">
               <img
-                src="{`${import.meta.env.BASE_URL}img/cabecalho.webp`}"
+                src={`${import.meta.env.BASE_URL}img/cabecalho.webp`}
                 alt="Gabs"
                 className="w-full h-full object-cover object-top scale-125 opacity-80"
               />
@@ -189,7 +189,7 @@ function App() {
         <section
           className="relative border border-zinc-800 rounded-2xl p-5 mb-10 overflow-hidden"
           style={{
-            backgroundImage: "{`${import.meta.env.BASE_URL}img/repertorio-bg.webp`}",
+            backgroundImage: {`${import.meta.env.BASE_URL}img/repertorio-bg.webp`},
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -301,7 +301,7 @@ function App() {
             {/* FOTO */}
             <div className="md:col-span-1 rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-950/40">
               <img
-                src="{`${import.meta.env.BASE_URL}img/sobre.jpg`}"
+                src={`${import.meta.env.BASE_URL}img/sobre.jpg`}
                 alt="Gabs Acústico"
                 className="w-full h-full object-cover rounded-2xl border border-zinc-800"
               />
