@@ -90,12 +90,21 @@ function App() {
 
     const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
+    // 🔎 validação importante (evita erro silencioso no celular)
+    if (!SUPABASE_ANON_KEY) {
+      setStatus("❌ Erro de configuração. Atualize a página.");
+      console.error("Anon key não encontrada");
+      return;
+    }
+
     try {
+      setStatus("⏳ Enviando pedido...");
+
       const resp = await fetch(SUPABASE_FUNCTION_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          apikey: SUPABASE_ANON_KEY, // ✅ só isso
+          apikey: SUPABASE_ANON_KEY,
         },
         body: JSON.stringify({
           pedido: pedidoAtual?.musicaFinal || "",
@@ -103,15 +112,24 @@ function App() {
         }),
       });
 
-      if (!resp.ok) throw new Error(await resp.text());
+      // 🔎 captura erro real do Supabase
+      if (!resp.ok) {
+        const txt = await resp.text();
+        throw new Error(txt);
+      }
 
       setStatus("✅ Pedido enviado!");
-      setTimeout(() => fecharModalPedido(), 600);
+
+      setTimeout(() => {
+        fecharModalPedido();
+      }, 800);
+
     } catch (e) {
-      setStatus("❌ Falha ao enviar.");
-      console.error(e);
+      console.error("Erro ao enviar:", e);
+      setStatus("❌ Falha ao enviar. Tente novamente.");
     }
   };
+
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
