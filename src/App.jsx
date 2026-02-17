@@ -122,7 +122,7 @@ function App() {
               />
 
               <p className="text-zinc-400 italic text-center mt-6">
-                Momentos marcantes tem trilha sonora!
+                Momentos marcantes têm trilha sonora!
               </p>
 
               {/* REDES */}
