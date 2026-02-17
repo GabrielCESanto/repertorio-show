@@ -85,18 +85,17 @@ function App() {
   };
 
   const enviarPedido = async () => {
-    
-    const SUPABASE_FUNCTION_URL ="https://dkzkutpbtkysebhunjrf.supabase.co/functions/v1/pedido";
+    const SUPABASE_FUNCTION_URL =
+      "https://dkzkutpbtkysebhunjrf.supabase.co/functions/v1/pedido";
+
     const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
     try {
-      
       const resp = await fetch(SUPABASE_FUNCTION_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          apikey: SUPABASE_ANON_KEY,
-          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+          apikey: SUPABASE_ANON_KEY, // ✅ só isso
         },
         body: JSON.stringify({
           pedido: pedidoAtual?.musicaFinal || "",
