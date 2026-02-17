@@ -8,10 +8,12 @@ const VIDEOS = [
   { title: "O BÊBADO E O EQUILIBRISTA - ELIS REGINA", youtubeId: "XIstQy-95Y4" },
   { title: "BOA SORTE - VANESSA DA MATA", youtubeId: "IEUVbuzACao" },
   { title: "HIT THE ROAD JACK - RAY CHARLES", youtubeId: "X00oXFyAegk" },
-  { title: "ANUNCIAÇÃO/EU SÓ QUERO UM XODÓ", youtubeId: "k1oREZbimtE"},
+  { title: "ANUNCIAÇÃO/EU SÓ QUERO UM XODÓ", youtubeId: "k1oREZbimtE" },
 ];
 
 function App() {
+  const BASE = import.meta.env.BASE_URL;
+
   // Seção 1 (pedido livre)
   const [pedidoLivre, setPedidoLivre] = useState("");
 
@@ -21,7 +23,7 @@ function App() {
   const [filtroEstilo, setFiltroEstilo] = useState("Todos");
 
   // Modal
-  const [pedidoAtual, setPedidoAtual] = useState(null); // { musicaFinal, origem, detalhe }
+  const [pedidoAtual, setPedidoAtual] = useState(null);
   const [mensagemModal, setMensagemModal] = useState("");
   const [status, setStatus] = useState("");
 
@@ -84,11 +86,13 @@ function App() {
 
   const enviarPedido = async () => {
     try {
+      // OBS: no GitHub Pages localhost não funciona.
+      // Depois vamos trocar isso pelo endpoint do Supabase.
       const resp = await fetch("http://localhost:3001/pedido", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          pedido: pedidoAtual.musicaFinal,
+          pedido: pedidoAtual?.musicaFinal || "",
           mensagem: mensagemModal || "",
         }),
       });
@@ -97,7 +101,6 @@ function App() {
 
       setStatus("✅ Pedido enviado!");
       setTimeout(() => fecharModalPedido(), 600);
-
     } catch (e) {
       setStatus("❌ Falha ao enviar.");
       console.error(e);
@@ -107,20 +110,18 @@ function App() {
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
       <div className="max-w-3xl mx-auto px-5 py-8">
-
         {/* HERO / HEADER */}
         <header className="border-zinc-800">
           <div className="max-w-3xl mx-auto px-5 py-8 grid md:grid-cols-2 gap-6 items-center">
-
             {/* TEXTO */}
             <div>
               <img
-                src={`${import.meta.env.BASE_URL}img/logo.jpg`}
+                src={`${BASE}img/logo.png`}
                 alt="Gabs Acústico"
                 className="h-auto w-auto"
               />
 
-              <p className="text-zinc-400 mt-2 italic text-center mt-6">
+              <p className="text-zinc-400 italic text-center mt-6">
                 Momentos marcantes tem trilha sonora!
               </p>
 
@@ -132,7 +133,11 @@ function App() {
                   rel="noreferrer"
                   className="p-3 rounded-xl border border-zinc-800 hover:bg-zinc-900/40 transition"
                 >
-                  <img src={`${import.meta.env.BASE_URL}img/instagram.png`} className="w-7 h-7" />
+                  <img
+                    src={`${BASE}img/instagram.png`}
+                    className="w-7 h-7"
+                    alt="Instagram"
+                  />
                 </a>
 
                 <a
@@ -141,30 +146,32 @@ function App() {
                   rel="noreferrer"
                   className="p-3 rounded-xl border border-zinc-800 hover:bg-zinc-900/40 transition"
                 >
-                  <img src={`${import.meta.env.BASE_URL}img/whatsapp.png`} className="w-7 h-7" />
+                  <img
+                    src={`${BASE}img/whatsapp.png`}
+                    className="w-7 h-7"
+                    alt="WhatsApp"
+                  />
                 </a>
               </div>
             </div>
 
             {/* FOTO */}
-            <div className="w-full max-w-[360px] h-[280px] rounded-2xl border border-zinc-800 overflow-hidden">
+            <div className="w-full max-w-[360px] h-[280px] rounded-2xl border border-zinc-800 overflow-hidden mx-auto">
               <img
-                src={`${import.meta.env.BASE_URL}img/cabecalho.webp`}
+                src={`${BASE}img/cabecalho.webp`}
                 alt="Gabs"
                 className="w-full h-full object-cover object-top scale-125 opacity-80"
               />
             </div>
-
-
           </div>
         </header>
-
 
         {/* SEÇÃO 1: PEDIDO LIVRE */}
         <section className="bg-zinc-950/40 border border-zinc-800 rounded-2xl p-5 mb-6">
           <h2 className="text-xl font-semibold mb-2">Peça sua música:</h2>
           <p className="text-sm text-zinc-400 mb-4">
-            Digite a música que você quer e clique em Pedir. Você pode (ou não) escrever uma mensagem depois.
+            Digite a música que você quer e clique em Pedir. Você pode (ou não) escrever uma
+            mensagem depois.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3">
@@ -185,88 +192,83 @@ function App() {
           </div>
         </section>
 
-        {/* SEÇÃO 2: BUSCA GRANDE + FILTROS ABAIXO + LISTA */}
+        {/* SEÇÃO 2: BUSCA + FILTROS + LISTA */}
         <section
           className="relative border border-zinc-800 rounded-2xl p-5 mb-10 overflow-hidden"
           style={{
-            backgroundImage: {`${import.meta.env.BASE_URL}img/repertorio-bg.webp`},
+            backgroundImage: `url(${BASE}img/repertorio-bg.webp)`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         >
           <div className="absolute inset-0 bg-black/80" />
           <div className="relative">
+            <h2 className="text-xl font-semibold mb-4">Buscar no repertório</h2>
 
-          <h2 className="text-xl font-semibold mb-4">Buscar no repertório</h2>
+            <input
+              className="w-full p-4 text-lg rounded-2xl bg-zinc-900 border border-zinc-800 outline-none focus:border-zinc-600"
+              placeholder="Buscar por música, artista, estilo ou letra..."
+              value={busca}
+              onChange={(e) => setBusca(e.target.value)}
+            />
 
-          {/* Busca grande */}
-          <input
-            className="w-full p-4 text-lg rounded-2xl bg-zinc-900 border border-zinc-800 outline-none focus:border-zinc-600"
-            placeholder="Buscar por música, artista, estilo ou letra..."
-            value={busca}
-            onChange={(e) => setBusca(e.target.value)}
-          />
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              <select
+                className="p-3 rounded-xl bg-zinc-900 border border-zinc-800 outline-none focus:border-zinc-600"
+                value={filtroArtista}
+                onChange={(e) => setFiltroArtista(e.target.value)}
+              >
+                <option value="Todos">Filtrar Cantor</option>
+                {artistas.map((a) => (
+                  <option key={a} value={a}>
+                    {a}
+                  </option>
+                ))}
+              </select>
 
-          {/* Menus abaixo */}
-          <div className="mt-3 grid gap-3 sm:grid-cols-2">
-            <select
-              className="p-3 rounded-xl bg-zinc-900 border border-zinc-800 outline-none focus:border-zinc-600"
-              value={filtroArtista}
-              onChange={(e) => setFiltroArtista(e.target.value)}
-            >
-              <option value="Todos">Filtrar Cantor</option>
+              <select
+                className="p-3 rounded-xl bg-zinc-900 border border-zinc-800 outline-none focus:border-zinc-600"
+                value={filtroEstilo}
+                onChange={(e) => setFiltroEstilo(e.target.value)}
+              >
+                <option value="Todos">Filtrar Estilo</option>
+                {estilos.map((e) => (
+                  <option key={e} value={e}>
+                    {e}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-              {artistas.map((a) => (
-                <option key={a} value={a}>
-                  {a}
-                </option>
+            <div className="mt-4 flex items-center justify-between text-sm text-zinc-400">
+              <span>{resultados.length} músicas encontradas</span>
+            </div>
+
+            <ul className="mt-2 divide-y divide-zinc-800 max-h-[420px] overflow-y-auto pr-2">
+              {resultados.map((m) => (
+                <li key={m.id} className="py-3 flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <p className="font-medium truncate">{m.nome}</p>
+                    <p className="text-zinc-400 text-sm truncate">
+                      {m.artista} • {m.estilo}
+                    </p>
+                  </div>
+
+                  <button
+                    className="shrink-0 px-3 py-2 rounded-xl bg-green-500 text-black text-sm font-semibold hover:opacity-90"
+                    onClick={() => pedirDaLista(m)}
+                  >
+                    Pedir
+                  </button>
+                </li>
               ))}
-            </select>
 
-            <select
-              className="p-3 rounded-xl bg-zinc-900 border border-zinc-800 outline-none focus:border-zinc-600"
-              value={filtroEstilo}
-              onChange={(e) => setFiltroEstilo(e.target.value)}
-            >
-              <option value="Todos">Filtrar Estilo</option>
-
-              {estilos.map((e) => (
-                <option key={e} value={e}>
-                  {e}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="mt-4 flex items-center justify-between text-sm text-zinc-400">
-            <span>{resultados.length} músicas encontradas</span>
-          </div>
-
-          <ul className="mt-2 divide-y divide-zinc-800 max-h-[420px] overflow-y-auto pr-2">
-            {resultados.map((m) => (
-              <li key={m.id} className="py-3 flex items-start justify-between gap-4">
-                <div className="min-w-0">
-                  <p className="font-medium truncate">{m.nome}</p>
-                  <p className="text-zinc-400 text-sm truncate">
-                    {m.artista} • {m.estilo}
-                  </p>
-                </div>
-
-                <button
-                  className="shrink-0 px-3 py-2 rounded-xl bg-green-500 text-black text-sm font-semibold hover:opacity-90"
-                  onClick={() => pedirDaLista(m)}
-                >
-                  Pedir
-                </button>
-              </li>
-            ))}
-
-            {resultados.length === 0 && (
-              <li className="py-6 text-zinc-400 text-sm">
-                Nada encontrado. Tente outro termo 🙂
-              </li>
-            )}
-          </ul>
+              {resultados.length === 0 && (
+                <li className="py-6 text-zinc-400 text-sm">
+                  Nada encontrado. Tente outro termo 🙂\
+                </li>
+              )}
+            </ul>
           </div>
         </section>
 
@@ -287,7 +289,7 @@ function App() {
                   allowFullScreen
                 />
                 <div className="p-3">
-                  <p className="text-center text-bold text-zinc-300">{v.title}</p>
+                  <p className="text-center font-semibold text-zinc-300">{v.title}</p>
                 </div>
               </div>
             ))}
@@ -297,17 +299,14 @@ function App() {
         {/* SOBRE MIM */}
         <section className="bg-zinc-900/40 border border-zinc-800 rounded-2xl p-5 mb-10">
           <div className="grid md:grid-cols-3 gap-5 items-stretch">
-            
-            {/* FOTO */}
             <div className="md:col-span-1 rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-950/40">
               <img
-                src={`${import.meta.env.BASE_URL}img/sobre.jpg`}
+                src={`${BASE}img/sobre.jpg`}
                 alt="Gabs Acústico"
-                className="w-full h-full object-cover rounded-2xl border border-zinc-800"
+                className="w-full h-full object-cover"
               />
             </div>
 
-            {/* TEXTO */}
             <div className="md:col-span-2 rounded-2xl border border-zinc-800 bg-zinc-950/40 p-6 text-zinc-200 leading-relaxed">
               <p className="text-lg font-semibold mb-4 text-center">Olá! 😁</p>
 
@@ -338,9 +337,7 @@ function App() {
           </div>
         </section>
 
-
-
-        {/* MODAL (mensagem opcional só aqui) */}
+        {/* MODAL */}
         {pedidoAtual && (
           <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
             <div className="w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-950 p-5">
@@ -350,10 +347,9 @@ function App() {
                   <p className="text-zinc-400 text-sm mt-1 break-words">
                     {pedidoAtual.musicaFinal}
                   </p>
-                  <p className="text-zinc-500 text-xs mt-1">
-                    {pedidoAtual.detalhe}
-                  </p>
+                  <p className="text-zinc-500 text-xs mt-1">{pedidoAtual.detalhe}</p>
                 </div>
+
                 <button onClick={fecharModalPedido} className="text-zinc-400 hover:text-white">
                   ✕
                 </button>
@@ -386,7 +382,6 @@ function App() {
             </div>
           </div>
         )}
-
       </div>
     </div>
   );
