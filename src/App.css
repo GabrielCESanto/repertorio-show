@@ -1,0 +1,136 @@
+:root {
+  --bg: #0b0d12;
+  --card: #121626;
+  --text: #e9eefc;
+  --muted: #aab3cf;
+  --line: rgba(255, 255, 255, 0.08);
+  --pill: rgba(255, 255, 255, 0.10);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.page {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 28px 16px 40px;
+}
+
+.header h1 {
+  margin: 0 0 6px;
+  font-size: 28px;
+  letter-spacing: 0.2px;
+}
+.header p {
+  margin: 0 0 18px;
+  color: var(--muted);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.search {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  outline: none;
+}
+.search::placeholder { color: rgba(233, 238, 252, 0.45); }
+.search:focus { border-color: rgba(233, 238, 252, 0.22); }
+
+.count {
+  color: var(--muted);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+/* Wrapper só pra ficar bonitinho */
+.listWrap {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(18, 22, 38, 0.55);
+  padding: 10px;
+}
+
+/* ✅ AQUI fica a rolagem só na lista */
+.list {
+  max-height: calc(56px * 5); /* ~5 itens visíveis */
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 6px; /* espaço pra scrollbar */
+}
+
+/* Item com altura fixa (ajuda a “fechar” em 5 itens) */
+.row {
+  height: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+}
+
+.row + .row { margin-top: 8px; }
+
+.row:hover {
+  border-color: var(--line);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.title {
+  font-weight: 650;
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.meta {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.pill {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--pill);
+  color: var(--text);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pill.ghost {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+
+.empty {
+  padding: 14px 12px;
+  color: var(--muted);
+}
+
+.list::-webkit-scrollbar { width: 10px; }
+.list::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.12);
+  border-radius: 999px;
+  border: 2px solid rgba(0,0,0,0);
+  background-clip: padding-box;
+}
+.list::-webkit-scrollbar-track { background: transparent; }
