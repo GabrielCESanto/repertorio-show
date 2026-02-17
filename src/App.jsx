@@ -301,7 +301,7 @@ function App() {
           <div className="grid md:grid-cols-3 gap-5 items-stretch">
             <div className="md:col-span-1 rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-950/40">
               <img
-                src={`${BASE}img/sobre.jpg`}
+                src={`${BASE}img/sobre.webp`}
                 alt="Gabs Acústico"
                 className="w-full h-full object-cover"
               />
