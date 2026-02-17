@@ -88,7 +88,7 @@ function App() {
     try {
       // OBS: no GitHub Pages localhost não funciona.
       // Depois vamos trocar isso pelo endpoint do Supabase.
-      const resp = await fetch("https://XXXXX.supabase.co/functions/v1/pedido", {
+      const resp = await fetch("https://supabase.com/dashboard/project/dkzkutpbtkysebhunjrf/functions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
