@@ -142,7 +142,7 @@ function App() {
               <img
                 src={`${BASE}img/logo.png`}
                 alt="Gabs Acústico"
-                className="h-auto w-auto"
+                className="w-60 mx-auto"
               />
 
               <p className="text-zinc-400 italic text-center mt-6">
