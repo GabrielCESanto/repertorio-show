@@ -90,7 +90,6 @@ function App() {
 
     const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-    // 🔎 validação importante (evita erro silencioso no celular)
     if (!SUPABASE_ANON_KEY) {
       setStatus("❌ Erro de configuração. Atualize a página.");
       console.error("Anon key não encontrada");
@@ -105,6 +104,7 @@ function App() {
         headers: {
           "Content-Type": "application/json",
           apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
         },
         body: JSON.stringify({
           pedido: pedidoAtual?.musicaFinal || "",
