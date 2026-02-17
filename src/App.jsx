@@ -85,12 +85,19 @@ function App() {
   };
 
   const enviarPedido = async () => {
+    
+    const SUPABASE_FUNCTION_URL ="https://dkzkutpbtkysebhunjrf.supabase.co/functions/v1/pedido";
+    const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
     try {
-      // OBS: no GitHub Pages localhost não funciona.
-      // Depois vamos trocar isso pelo endpoint do Supabase.
-      const resp = await fetch("https://supabase.com/dashboard/project/dkzkutpbtkysebhunjrf/functions/v1/pedido", {
+      
+      const resp = await fetch(SUPABASE_FUNCTION_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        },
         body: JSON.stringify({
           pedido: pedidoAtual?.musicaFinal || "",
           mensagem: mensagemModal || "",
